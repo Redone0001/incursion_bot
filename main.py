@@ -53,7 +53,7 @@ def _compare_state(prev_state, eve_state):
     return text
 
 
-def main(webhook, prev_state):
+def main(webhook, webhook_notify, prev_state):
     logger.info(f"message id = {webhook.id}")
     logger.info(f"process id = {os.getpid()}")
 
@@ -66,7 +66,7 @@ def main(webhook, prev_state):
     footer_text = f"\n\nlast update at {str(datetime.now())[:-7]}"
     webhook.content = header_text + eve_state.to_print + footer_text
     webhook.edit()
-    _notify(_compare_state(prev_state, eve_state))
+    _notify(_compare_state(prev_state, eve_state), webhook_notify)
 
     return eve_state
 
@@ -85,5 +85,5 @@ if __name__ == "__main__":
     prev_state._process_incursion()
     prev_state._update_state_eve()
     while True:
-        prev_state = main(webhook, prev_state)
+        prev_state = main(webhook, webhook_notify, prev_state)
         sleep(5)
