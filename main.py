@@ -65,8 +65,8 @@ def main(webhook, webhook_notify, prev_state):
     logger.info(header_text + eve_state.to_print)
     footer_text = f"\n\nlast update at {str(datetime.now())[:-7]}"
     webhook.content = header_text + eve_state.to_print + footer_text
-    print(webhook.id)
-    print(webhook.url)
+    logger.info(webhook.id)
+    logger.info(webhook.url)
     webhook.edit()
     _notify(_compare_state(prev_state, eve_state), webhook_notify)
 
