@@ -21,15 +21,9 @@ from kubernetes import client, config
 def _load_kube_config():
     namespace = "incursion-bot"
     bot_name = "Incursion Bot V3"
-    config.load_kube_config()
-    v1 = client.CoreV1Api()
-    table_discord_webhook_url = base64.b64decode(
-        v1.read_namespaced_secret("table-discord-webhook-url", namespace).get("url")
-    ).decode("utf-8")
-    ping_discord_webhook_url = base64.b64decode(
-        v1.read_namespaced_secret("ping-discord-webhook-url", namespace).get("url")
-    ).decode("utf-8")
-    message_id = int(base64.b64decode(v1.read_namespaced_secret("message-id", namespace).get("id")).decode("utf-8"))
+    table_discord_webhook_url = base64.b64decode(os.environ.get("ping-discord-webhook-url")).decode("utf-8")
+    ping_discord_webhook_url = base64.b64decode(os.environ.get("message-id").get("url")).decode("utf-8")
+    message_id = int(base64.b64decode(os.environ.get(" message-id").get("id")).decode("utf-8"))
     print(table_discord_webhook_url, ping_discord_webhook_url, message_id)
     webhook = DiscordWebhook(url=table_discord_webhook_url, id=message_id, username=bot_name)
     webhook_notify = DiscordWebhook(url=ping_discord_webhook_url, username=bot_name)
