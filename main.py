@@ -15,12 +15,11 @@ from time import sleep
 from datetime import datetime, timedelta
 from discord_webhook import DiscordWebhook
 from eve_incursion_data import eve_incursion_data
-from kubernetes import client, config
 
 
 def _load_kube_config():
-    namespace = "incursion-bot"
     bot_name = "Incursion Bot V3"
+    print(os.environ.get("ping-discord-webhook-url"))
     table_discord_webhook_url = base64.b64decode(os.environ.get("ping-discord-webhook-url")).decode("utf-8")
     ping_discord_webhook_url = base64.b64decode(os.environ.get("message-id").get("url")).decode("utf-8")
     message_id = int(base64.b64decode(os.environ.get(" message-id").get("id")).decode("utf-8"))
