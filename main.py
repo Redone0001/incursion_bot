@@ -23,7 +23,7 @@ def _load_kube_config():
     ping_discord_webhook_url = os.environ.get("table-discord-webhook-url")
     message_id = int(os.environ.get("message-id"))
     print(table_discord_webhook_url, ping_discord_webhook_url, message_id)
-    webhook = DiscordWebhook(url=table_discord_webhook_url, id=message_id, username=bot_name)
+    webhook = DiscordWebhook(url=table_discord_webhook_url, id=str(message_id), username=bot_name)
     webhook_notify = DiscordWebhook(url=ping_discord_webhook_url, username=bot_name)
 
     return webhook, webhook_notify
