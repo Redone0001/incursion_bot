@@ -67,6 +67,7 @@ def main(webhook, webhook_notify, prev_state):
     webhook.content = header_text + eve_state.to_print + footer_text
     logger.info(webhook.id)
     logger.info(webhook.url)
+    logger.info(webhook_notify.url)
     webhook.edit()
     _notify(_compare_state(prev_state, eve_state), webhook_notify)
 
