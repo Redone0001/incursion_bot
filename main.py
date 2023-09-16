@@ -21,7 +21,7 @@ def _load_kube_config():
     bot_name = "Incursion Bot V3"
     table_discord_webhook_url = os.environ.get("ping-discord-webhook-url")
     ping_discord_webhook_url = os.environ.get("table-discord-webhook-url")
-    message_id = int(os.environ.get("message-id"))
+    message_id = os.environ.get("message-id")
     print(table_discord_webhook_url, ping_discord_webhook_url, message_id)
     webhook = DiscordWebhook(url=table_discord_webhook_url, id=str(message_id), username=bot_name)
     webhook_notify = DiscordWebhook(url=ping_discord_webhook_url, username=bot_name)
@@ -65,6 +65,8 @@ def main(webhook, webhook_notify, prev_state):
     logger.info(header_text + eve_state.to_print)
     footer_text = f"\n\nlast update at {str(datetime.now())[:-7]}"
     webhook.content = header_text + eve_state.to_print + footer_text
+    print(webhook.id)
+    print(webhook.url)
     webhook.edit()
     _notify(_compare_state(prev_state, eve_state), webhook_notify)
 
