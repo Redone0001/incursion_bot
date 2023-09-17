@@ -18,9 +18,9 @@ from eve_incursion_data import eve_incursion_data
 
 
 def _load_kube_config():
-    bot_name = "Incursion Bot V3"
-    table_discord_webhook_url = os.environ.get("ping-discord-webhook-url")
-    ping_discord_webhook_url = os.environ.get("table-discord-webhook-url")
+    bot_name = "Incursion Bot V2"
+    table_discord_webhook_url = os.environ.get("table-discord-webhook-url")
+    ping_discord_webhook_url = os.environ.get("ping-discord-webhook-url")
     message_id = os.environ.get("message-id")
     print(table_discord_webhook_url, ping_discord_webhook_url, message_id)
     webhook = DiscordWebhook(url=table_discord_webhook_url, id=str(message_id), username=bot_name)
