@@ -41,10 +41,11 @@ def _compare_state(prev_state, eve_state):
     text = ""
     list_stag = [(inc.stag_system, inc.region) for inc in eve_state.in_horde]
     list_prev_stag = [(inc.stag_system, inc.region) for inc in prev_state.in_horde]
-    diff_stag = set(list_stag) - set(list_prev_stag)
     if len(prev_state.in_horde) > len(eve_state.in_horde):
+        diff_stag = set(list_stag) - set(list_prev_stag)
         text += f"Focus in {diff_stag[1]} despawn\nNew spawn from {str(datetime.now() + timedelta(hours = 12))[:-7]} to {str(datetime.now() + timedelta(hours = 36))[:-7]}"
     elif len(prev_state.in_horde) < len(eve_state.in_horde):
+        diff_stag = set(list_prev_stag) - set(list_stag)
         text += f"Focus in {diff_stag[1]} spawn\n"
     else:
         for id, inc in enumerate(eve_state.in_horde):
