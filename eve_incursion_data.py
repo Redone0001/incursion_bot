@@ -20,7 +20,7 @@ class eve_incursion_data:
             "Etherium Reach",
             "Kalevala expanse",
             "Malpais",
-            "Perrigen falls",
+            "Perrigen Falls",
             "Oasa",
             "Outer pasage",
             "The spire",
