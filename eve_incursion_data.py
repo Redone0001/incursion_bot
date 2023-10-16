@@ -18,13 +18,13 @@ class eve_incursion_data:
         self.in_horde = []
         self.horde_space = [
             "Etherium Reach",
-            "Kalevala expanse",
+            "Kalevala Expanse",
             "Malpais",
             "Perrigen Falls",
             "Oasa",
-            "Outer pasage",
-            "The spire",
-            "Cobalt edge",
+            "Outer Pasage",
+            "The Spire",
+            "Cobalt Edge",
             "Cache",
         ]
         self.to_print = ""
