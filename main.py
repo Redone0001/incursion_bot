@@ -10,6 +10,7 @@ Created on Sat Aug  5 19:40:52 2023
 
 import os
 import base64
+import requests
 import logging
 from time import sleep
 from datetime import datetime, timedelta
@@ -78,7 +79,7 @@ def _compare_state_all(prev_state, eve_state):
     return text
 
 
-def main(webhook, webhook_notify, prev_state):
+def main(webhook, webhook_notify, prev_state, struik):
     logger.info(f"message id = {webhook.id}")
     logger.info(f"process id = {os.getpid()}")
 
@@ -86,7 +87,18 @@ def main(webhook, webhook_notify, prev_state):
     eve_state._process_incursion()
     eve_state._update_state_eve()
 
-    header_text = f"{len(eve_state.in_horde)} focus in our space\n{3-(eve_state.NS_count)} spaw brewing for null sec"
+    if struik[1] != str(datetime.now())[:-16]:
+        try:
+            struik_api = "http://icanhazdadjoke.com/slack"
+            headers = {"Accept": "application/json", "User-Agent": "Python app M.Cain"}
+            response = requests.get(struik_api, headers)
+            assert response.status_code == 200
+            struik_joke = response.json()["attachments"][0]["text"]
+            struik = (struik_joke, str(datetime.now())[:-16])
+        except:
+            pass
+
+    header_text = f"Struik quote:{struik[0]}\n{len(eve_state.in_horde)} focus in our space\n{3-(eve_state.NS_count)} spaw brewing for null sec"
     logger.info(header_text + eve_state.to_print)
     footer_text = f"\n\nlast update at {str(datetime.now())[:-7]}"
     webhook.content = header_text + eve_state.to_print + footer_text
@@ -101,7 +113,7 @@ def main(webhook, webhook_notify, prev_state):
     else:
         _notify(text, webhook_notify)
 
-    return eve_state
+    return eve_state, struik
 
 
 # %%
@@ -117,6 +129,7 @@ if __name__ == "__main__":
     prev_state = eve_incursion_data()
     prev_state._process_incursion()
     prev_state._update_state_eve()
+    struik = ("", str(datetime.now())[:-16])
     while True:
-        prev_state = main(webhook, webhook_notify, prev_state)
+        prev_state, struik = main(webhook, webhook_notify, prev_state, struik)
         sleep(5)
