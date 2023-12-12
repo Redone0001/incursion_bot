@@ -37,6 +37,13 @@ def _notify(text, webhook_notify):
     webhook_notify.execute()
 
 
+def _notify_quiet(text, webhook_notify):
+    if len(text) == 0:
+        return
+    webhook_notify.content = text + f"\n\nlast update at {str(datetime.now())[:-7]}"
+    webhook_notify.execute()
+
+
 def _compare_state(prev_state, eve_state):
     text = ""
     list_stag = [(inc.stag_system, inc.region) for inc in eve_state.in_horde]
@@ -50,6 +57,23 @@ def _compare_state(prev_state, eve_state):
     else:
         for id, inc in enumerate(eve_state.in_horde):
             if prev_state.in_horde[id].state != inc.state:
+                text += f"Focus in {inc.region}, {inc.stag_system} went {inc.state}\n"
+    return text
+
+
+def _compare_state_all(prev_state, eve_state):
+    text = ""
+    list_stag = [(inc.stag_system, inc.region) for inc in eve_state.list_data]
+    list_prev_stag = [(inc.stag_system, inc.region) for inc in prev_state.list_data]
+    if len(prev_state.list_data) > len(eve_state.list_data):
+        diff_stag = set(list_prev_stag) - set(list_stag)
+        text += f"Focus in {diff_stag} despawn\nNew spawn from {str(datetime.now() + timedelta(hours = 12))[:-7]} to {str(datetime.now() + timedelta(hours = 36))[:-7]}"
+    elif len(prev_state.list_data) < len(eve_state.list_data):
+        diff_stag = set(list_stag) - set(list_prev_stag)
+        text += f"Focus in {diff_stag} spawn\n"
+    else:
+        for id, inc in enumerate(eve_state.list_data):
+            if prev_state.list_data[id].state != inc.state:
                 text += f"Focus in {inc.region}, {inc.stag_system} went {inc.state}\n"
     return text
 
@@ -70,7 +94,12 @@ def main(webhook, webhook_notify, prev_state):
     logger.info(webhook.url)
     logger.info(webhook_notify.url)
     webhook.edit()
-    _notify(_compare_state(prev_state, eve_state), webhook_notify)
+    text = _compare_state(prev_state, eve_state)
+    if len(text) == 0:
+        text = _compare_state_all(prev_state, eve_state)
+        _notify_quiet(text, webhook_notify)
+    else:
+        _notify(text, webhook_notify)
 
     return eve_state
 

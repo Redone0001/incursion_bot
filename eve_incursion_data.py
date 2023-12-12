@@ -18,7 +18,7 @@ class eve_incursion_data:
         self.in_horde = []
         self.horde_space = [
             "Etherium Reach",
-            "Kalevala Expanse",
+            "The Kalevala Expanse",
             "Malpais",
             "Perrigen Falls",
             "Oasa",
