@@ -129,7 +129,7 @@ if __name__ == "__main__":
     prev_state = eve_incursion_data()
     prev_state._process_incursion()
     prev_state._update_state_eve()
-    struik = ("", str(datetime.now())[:-16])
+    struik = ("", "")
     while True:
         prev_state, struik = main(webhook, webhook_notify, prev_state, struik)
         sleep(5)
