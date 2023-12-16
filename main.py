@@ -98,7 +98,7 @@ def main(webhook, webhook_notify, prev_state, struik):
         except:
             pass
 
-    header_text = f"Struik quote: {struik[0]}\n{len(eve_state.in_horde)} focus in our space\n{3-(eve_state.NS_count)} spaw brewing for null sec"
+    header_text = f"Struik quote: {struik[0]}\n{len(eve_state.in_horde)} focus in our space\n{3-(eve_state.NS_count)} spawn brewing for null sec"
     logger.info(header_text + eve_state.to_print)
     footer_text = f"\n\nlast update at {str(datetime.now())[:-7]}"
     webhook.content = header_text + eve_state.to_print + footer_text
