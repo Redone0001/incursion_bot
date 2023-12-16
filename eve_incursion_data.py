@@ -22,7 +22,7 @@ class eve_incursion_data:
             "Malpais",
             "Perrigen Falls",
             "Oasa",
-            "Outer Pasage",
+            "Outer Passage",
             "The Spire",
             "Cobalt Edge",
             "Cache",
